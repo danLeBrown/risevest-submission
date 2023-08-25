@@ -40,6 +40,17 @@ const models: TsoaRoute.Models = {
             "user_id": {"dataType":"double","required":true},
             "title": {"dataType":"string","required":true},
             "content": {"dataType":"string","required":true},
+            "user": {"ref":"UserDto"},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "UserDto": {
+        "dataType": "refObject",
+        "properties": {
+            "id": {"dataType":"double","required":true},
+            "name": {"dataType":"string","required":true},
+            "posts": {"dataType":"array","array":{"dataType":"refObject","ref":"PostDto"}},
         },
         "additionalProperties": false,
     },
@@ -54,11 +65,12 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "UserDto": {
+    "QueryPostDto": {
         "dataType": "refObject",
         "properties": {
-            "id": {"dataType":"double","required":true},
-            "name": {"dataType":"string","required":true},
+            "user_id": {"dataType":"double"},
+            "title": {"dataType":"string"},
+            "content": {"dataType":"string"},
         },
         "additionalProperties": false,
     },
@@ -155,6 +167,32 @@ export function RegisterRoutes(app: Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.post('/posts/:id/comments',
+            ...(fetchMiddlewares<RequestHandler>(PostsController)),
+            ...(fetchMiddlewares<RequestHandler>(PostsController.prototype.createComment)),
+
+            function PostsController_createComment(request: any, response: any, next: any) {
+            const args = {
+                    id: {"in":"path","name":"id","required":true,"dataType":"double"},
+                    createCommentDto: {"in":"body","name":"createCommentDto","required":true,"ref":"CreateCommentDto"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new PostsController();
+
+
+              const promise = controller.createComment.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.post('/posts',
             ...(fetchMiddlewares<RequestHandler>(PostsController)),
             ...(fetchMiddlewares<RequestHandler>(PostsController.prototype.create)),
@@ -186,6 +224,7 @@ export function RegisterRoutes(app: Router) {
 
             function PostsController_findAll(request: any, response: any, next: any) {
             const args = {
+                    query: {"in":"queries","name":"query","ref":"QueryPostDto"},
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
@@ -297,6 +336,31 @@ export function RegisterRoutes(app: Router) {
 
 
               const promise = controller.findById.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.get('/users/:id/posts',
+            ...(fetchMiddlewares<RequestHandler>(UsersController)),
+            ...(fetchMiddlewares<RequestHandler>(UsersController.prototype.findPostsByUserId)),
+
+            function UsersController_findPostsByUserId(request: any, response: any, next: any) {
+            const args = {
+                    id: {"in":"path","name":"id","required":true,"dataType":"double"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new UsersController();
+
+
+              const promise = controller.findPostsByUserId.apply(controller, validatedArgs as any);
               promiseHandler(controller, promise, response, undefined, next);
             } catch (err) {
                 return next(err);

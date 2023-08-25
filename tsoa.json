@@ -5,7 +5,7 @@
         "src/**/*controller.ts"
     ],
     "spec": {
-        "outputDirectory": "src/routes",
+        "outputDirectory": "dist",
         "specVersion": 3
     },
     "routes": {

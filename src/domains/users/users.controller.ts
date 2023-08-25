@@ -2,6 +2,7 @@ import { Body, Get, Post, Route } from 'tsoa';
 import { UsersService } from './users.service';
 import { UserDto } from './dto/user.dto';
 import { CreateUserDto } from './dto/create-user.dto';
+import { PostDto } from '../posts/dto/post.dto';
 
 @Route('users')
 export class UsersController {
@@ -28,5 +29,12 @@ export class UsersController {
     const data = await this.usersService.findOneByOrFail({ id });
 
     return { data: UserDto.fromEntity(data) };
+  }
+
+  @Get('/{id}/posts')
+  public async findPostsByUserId(id: number): Promise<{ data: PostDto[] }> {
+    const data = await this.usersService.findUserPosts(id);
+
+    return { data: PostDto.collection(data) };
   }
 }
