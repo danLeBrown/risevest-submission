@@ -3,21 +3,27 @@ version: '3.4'
 services:
   risevest:
     image: risevest
+    # restart: always
     build:
       context: .
       dockerfile: ./Dockerfile
     environment:
       NODE_ENV: ${NODE_ENV}
+    volumes:
+      - ./:/usr/src/app
+      - ./node_modules:/usr/src/app/node_modules
+      - ./tsconfig.json:/usr/src/app/tsconfig.json
+    depends_on:
+      - postgres
     ports:
       - ${APP_PORT}:${APP_PORT}
     networks:
       - risevestNetwork
 
   postgres:
+    container_name: ${POSTGRES_HOST}
     image: postgres:latest
     restart: always
-    depends_on:
-      - risevest
     ports:
       - '${POSTGRES_PORT}:${POSTGRES_PORT}'
     environment:
