@@ -40,9 +40,12 @@ describe('Users Controller', () => {
             done(err);
           }
 
-          expect(res.body.data.id).toBeDefined();
+          expect(res.body.data.user).toBeDefined();
+          expect(res.body.data.user).toHaveProperty('id');
+          expect(res.body.data.user).toHaveProperty('name');
+          expect(res.body.data).toHaveProperty('token');
 
-          usersService.findAll().then((users) => {
+          usersService.findBy().then((users) => {
             expect(users).toHaveLength(2);
           });
 

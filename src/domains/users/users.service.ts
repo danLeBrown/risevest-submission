@@ -13,8 +13,8 @@ export class UsersService {
     private readonly postsService = new PostsService(),
   ) {}
 
-  findAll() {
-    return this.userRepo.find();
+  findBy(where?: FindOptionsWhere<User>) {
+    return this.userRepo.find({ where });
   }
 
   create(createUserDto: CreateUserDto) {

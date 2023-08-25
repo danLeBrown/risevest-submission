@@ -4,6 +4,7 @@ import { UserDto } from './dto/user.dto';
 import { CreateUserDto } from './dto/create-user.dto';
 import { PostDto } from '../posts/dto/post.dto';
 import { CreatePostDto } from '../posts/dto/create-post.dto';
+import { AuthUserDto } from './dto/auth-user.dto';
 
 @Route('users')
 export class UsersController {
@@ -12,10 +13,10 @@ export class UsersController {
   @Post('')
   public async create(
     @Body() createUserDto: CreateUserDto,
-  ): Promise<{ data: UserDto }> {
+  ): Promise<{ data: AuthUserDto }> {
     const data = await this.usersService.create(createUserDto);
 
-    return { data: UserDto.fromEntity(data) };
+    return { data: AuthUserDto.fromEntity(data) };
   }
 
   @Post('/{id}/posts')
@@ -29,8 +30,8 @@ export class UsersController {
   }
 
   @Get('/')
-  public async findAll(): Promise<{ data: UserDto[] }> {
-    const data = await this.usersService.findAll();
+  public async findBy(): Promise<{ data: UserDto[] }> {
+    const data = await this.usersService.findBy();
 
     return { data: UserDto.collection(data) };
   }

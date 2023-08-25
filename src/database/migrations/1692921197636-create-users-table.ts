@@ -21,6 +21,11 @@ export class CreateUsersTable1692921197636 implements MigrationInterface {
             length: '255',
           },
           {
+            name: 'token',
+            type: 'varchar',
+            length: '100',
+          },
+          {
             name: 'created_at',
             type: 'int',
             width: 11,

@@ -30,7 +30,7 @@ export class PostsController {
   }
 
   @Get('/')
-  public async findAll(
+  public async findBy(
     @Queries() query?: QueryPostDto,
   ): Promise<{ data: PostDto[] }> {
     const data = await this.postsService.findBy(query);

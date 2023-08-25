@@ -17,8 +17,8 @@ export class CommentsController {
   }
 
   @Get('/')
-  public async findAll(): Promise<{ data: CommentDto[] }> {
-    const data = await this.commentsService.findAll();
+  public async findBy(): Promise<{ data: CommentDto[] }> {
+    const data = await this.commentsService.findBy();
 
     return { data: CommentDto.collection(data) };
   }

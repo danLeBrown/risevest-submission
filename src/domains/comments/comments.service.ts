@@ -6,10 +6,6 @@ import { getRepository } from '../../utils/data-source-manager';
 export class CommentsService {
   constructor(private readonly commentRepo = getRepository<Comment>(Comment)) {}
 
-  findAll() {
-    return this.commentRepo.find();
-  }
-
   create(createCommentDto: CreateCommentDto) {
     const comment = this.commentRepo.create(createCommentDto);
     return this.commentRepo.save(comment);

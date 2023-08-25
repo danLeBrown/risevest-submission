@@ -88,7 +88,7 @@ describe('Comments Controller', () => {
 
           expect(res.body.data.id).toBeDefined();
 
-          commentsService.findAll().then((comments) => {
+          commentsService.findBy().then((comments) => {
             expect(comments).toHaveLength(2);
           });
 
