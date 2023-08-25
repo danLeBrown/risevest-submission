@@ -24,4 +24,8 @@ export class CommentsService {
 
     return comment;
   }
+
+  async findBy(where?: FindOptionsWhere<Comment>) {
+    return this.commentRepo.find({ where, relations: { post: true } });
+  }
 }

@@ -1,8 +1,9 @@
-import { Body, Get, Post, Route } from 'tsoa';
+import { Body, Get, Path, Post, Route } from 'tsoa';
 import { UsersService } from './users.service';
 import { UserDto } from './dto/user.dto';
 import { CreateUserDto } from './dto/create-user.dto';
 import { PostDto } from '../posts/dto/post.dto';
+import { CreatePostDto } from '../posts/dto/create-post.dto';
 
 @Route('users')
 export class UsersController {
@@ -17,11 +18,14 @@ export class UsersController {
     return { data: UserDto.fromEntity(data) };
   }
 
-  @Get('top-users')
-  public async findTopUsers() {
-    return this.usersService.findTopUsers();
+  @Post('/{id}/posts')
+  public async createUserPost(
+    @Path() id: number,
+    @Body() createPostDto: CreatePostDto,
+  ): Promise<{ data: PostDto[] }> {
+    const data = await this.usersService.createUserPost(id, createPostDto);
 
-    // return { data: UserDto.collection(data) };
+    return { data: PostDto.collection(data) };
   }
 
   @Get('/')
@@ -31,17 +35,17 @@ export class UsersController {
     return { data: UserDto.collection(data) };
   }
 
+  @Get('leader-board')
+  public async findTopUsers() {
+    const data = await this.usersService.findTopUsers();
+
+    return { data };
+  }
+
   @Get('/{id}')
   public async findById(id: number): Promise<{ data: UserDto }> {
     const data = await this.usersService.findOneByOrFail({ id });
 
     return { data: UserDto.fromEntity(data) };
-  }
-
-  @Get('/{id}/posts')
-  public async findPostsByUserId(id: number): Promise<{ data: PostDto[] }> {
-    const data = await this.usersService.findUserPosts(id);
-
-    return { data: PostDto.collection(data) };
   }
 }

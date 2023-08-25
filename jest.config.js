@@ -5,5 +5,5 @@ module.exports = {
   testMatch: ['**/**/*.e2e-spec.ts'],
   verbose: true,
   forceExit: true,
-  // clearMocks: true,
+  clearMocks: true,
 };

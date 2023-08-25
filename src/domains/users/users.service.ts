@@ -5,6 +5,7 @@ import { PostsService } from '../posts/posts.service';
 import { Post } from '../posts/entity/post.entity';
 import { NotFoundException } from '../../exceptions/not-found-exception';
 import { getRepository } from '../../utils/data-source-manager';
+import { CreatePostDto } from '../posts/dto/create-post.dto';
 
 export class UsersService {
   constructor(
@@ -31,8 +32,13 @@ export class UsersService {
     return user;
   }
 
-  async findUserPosts(id: number): Promise<Post[]> {
+  async createUserPost(
+    id: number,
+    createPostDto: CreatePostDto,
+  ): Promise<Post[]> {
     const user = await this.findOneByOrFail({ id });
+
+    const post = await this.postsService.create(createPostDto);
 
     return this.postsService.findBy({ user_id: user.id });
   }
@@ -41,8 +47,8 @@ export class UsersService {
     return this.userRepo
       .createQueryBuilder('u')
       .select('u.*')
-      .addSelect('count(DISTINCT p.id)', 'post_count')
-      .addSelect('user_comments.content', 'last_comment')
+      .addSelect('count(DISTINCT p.id)', 'total_posts')
+      .addSelect('user_comments.content', 'latest_comment')
       .leftJoin(Post, 'p', 'u.id = p.user_id')
       .leftJoin(
         (qb) =>
@@ -56,7 +62,7 @@ export class UsersService {
         'u.id = user_comments.user_id',
       )
       .groupBy('u.id, user_comments.content')
-      .orderBy('post_count', 'DESC')
+      .orderBy('total_posts', 'DESC')
       .limit(3)
       .getRawMany();
 

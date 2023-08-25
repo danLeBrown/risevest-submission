@@ -1,6 +1,6 @@
 import express, { json, Express, urlencoded } from 'express';
 import { RegisterRoutes } from '../routes/routes';
-import { exceptionHandler } from '../exceptions/handler';
+import { exceptionHandler, notFoundHandler } from '../exceptions/handler';
 import { getDataSource } from './data-source-manager';
 
 async function createApplication() {
@@ -19,6 +19,7 @@ async function createApplication() {
 
   RegisterRoutes(app);
 
+  app.use(notFoundHandler);
   app.use(exceptionHandler);
 
   const DataSource = getDataSource();

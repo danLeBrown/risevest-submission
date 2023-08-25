@@ -10,6 +10,15 @@ import { QueryPostDto } from './dto/query-post.dto';
 export class PostsController {
   constructor(private readonly postsService = new PostsService()) {}
 
+  @Post('/')
+  public async create(
+    @Body() createPostDto: CreatePostDto,
+  ): Promise<{ data: PostDto }> {
+    const data = await this.postsService.create(createPostDto);
+
+    return { data: PostDto.fromEntity(data) };
+  }
+
   @Post('/{id}/comments')
   public async createComment(
     @Path() id: number,
@@ -20,20 +29,10 @@ export class PostsController {
     return { data: CommentDto.fromEntity(data) };
   }
 
-  @Post('/')
-  public async create(
-    @Body() createPostDto: CreatePostDto,
-  ): Promise<{ data: PostDto }> {
-    const data = await this.postsService.create(createPostDto);
-
-    return { data: PostDto.fromEntity(data) };
-  }
-
   @Get('/')
   public async findAll(
     @Queries() query?: QueryPostDto,
   ): Promise<{ data: PostDto[] }> {
-    console.log(query);
     const data = await this.postsService.findBy(query);
 
     return { data: PostDto.collection(data) };
@@ -41,7 +40,6 @@ export class PostsController {
 
   @Get('/{id}')
   public async findById(id: number): Promise<{ data: PostDto }> {
-    console.log(id);
     const data = await this.postsService.findOneByOrFail({ id });
 
     return { data: PostDto.fromEntity(data) };

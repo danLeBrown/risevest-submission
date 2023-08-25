@@ -44,3 +44,9 @@ export function exceptionHandler(
     message: 'Internal Server Error',
   });
 }
+
+export function notFoundHandler(_req: Request, res: Response) {
+  res.status(404).send({
+    message: 'Not Found',
+  });
+}
