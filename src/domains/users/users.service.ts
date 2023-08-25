@@ -1,16 +1,14 @@
 import { FindOptionsWhere, Repository } from 'typeorm';
-import { AppDataSource } from '../../config/typeorm.config';
 import { User } from './entity/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { PostsService } from '../posts/posts.service';
 import { Post } from '../posts/entity/post.entity';
 import { NotFoundException } from '../../exceptions/not-found-exception';
+import { getRepository } from '../../utils/data-source-manager';
 
 export class UsersService {
   constructor(
-    private readonly userRepo: Repository<User> = AppDataSource.getRepository<User>(
-      User,
-    ),
+    private readonly userRepo: Repository<User> = getRepository<User>(User),
     private readonly postsService = new PostsService(),
   ) {}
 
