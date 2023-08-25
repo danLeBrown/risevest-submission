@@ -1,0 +1,32 @@
+{
+  "name": "risevest-test",
+  "version": "1.0.0",
+  "description": "My submission for the risevest test",
+  "main": "src/main.ts",
+  "scripts": {
+    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/main.js\" \"yarn run tsoa routes\"",
+    "migration:create": "typeorm-ts-node-esm migration:create ./src/database/migrations/${npm_config_name}",
+    "migration:run": "typeorm-ts-node-esm migration:run -d ./src/config/typeorm.config.ts"
+  },
+  "author": "Ayomide-Daniel",
+  "license": "ISC",
+  "dependencies": {
+    "class-validator": "^0.14.0",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "pg": "^8.11.3",
+    "reflect-metadata": "^0.1.13",
+    "sqlite3": "^5.1.6",
+    "tsoa": "^5.1.1",
+    "typeorm": "^0.3.17"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.13",
+    "@types/express": "^4.17.17",
+    "@types/node": "^20.5.6",
+    "concurrently": "^8.2.1",
+    "nodemon": "^3.0.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
+  }
+}
