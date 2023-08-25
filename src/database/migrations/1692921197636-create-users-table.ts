@@ -23,12 +23,12 @@ export class CreateUsersTable1692921197636 implements MigrationInterface {
           {
             name: 'created_at',
             type: 'int',
-            default: 'now()',
+            width: 11,
           },
           {
             name: 'updated_at',
             type: 'int',
-            default: 'now()',
+            width: 11,
           },
         ],
       }),

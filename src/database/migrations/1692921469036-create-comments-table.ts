@@ -22,12 +22,12 @@ export class CreateCommentsTable1692921469036 implements MigrationInterface {
           {
             name: 'created_at',
             type: 'int',
-            default: 'now()',
+            width: 11,
           },
           {
             name: 'updated_at',
             type: 'int',
-            default: 'now()',
+            width: 11,
           },
           {
             name: 'user_id',

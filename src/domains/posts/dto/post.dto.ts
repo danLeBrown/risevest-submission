@@ -1,7 +1,8 @@
 import { UserDto } from '../../users/dto/user.dto';
-import { Post } from '../entity/post';
+import { Post } from '../entity/post.entity';
+import { BaseDto } from '../../../common/dto/base-dto';
 
-export class PostDto {
+export class PostDto extends BaseDto {
   id: number;
   user_id: number;
   title: string;
@@ -9,6 +10,7 @@ export class PostDto {
   user?: UserDto;
 
   constructor(post: Post) {
+    super(post);
     this.id = post.id;
     this.user_id = post.user_id;
     this.title = post.title;

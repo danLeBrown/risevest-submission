@@ -1,12 +1,14 @@
+import { BaseDto } from '../../../common/dto/base-dto';
 import { PostDto } from '../../posts/dto/post.dto';
-import { User } from '../entity/user.enity';
+import { User } from '../entity/user.entity';
 
-export class UserDto {
+export class UserDto extends BaseDto {
   id: number;
   name: string;
   posts?: PostDto[];
 
   constructor(user: User) {
+    super(user);
     this.id = user.id;
     this.name = user.name;
 

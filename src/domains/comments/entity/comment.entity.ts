@@ -1,11 +1,10 @@
 import { BaseEntity } from '../../../common/entity/base-entity';
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
-import { Post } from '../../posts/entity/post';
-import { User } from '../../users/entity/user.enity';
-import { BaseDto } from '../../../common/dto/base-dto';
+import { Post } from '../../posts/entity/post.entity';
+import { User } from '../../users/entity/user.entity';
 
-@Entity()
-export class Comment extends BaseEntity<BaseDto> {
+@Entity({ name: 'comments' })
+export class Comment extends BaseEntity {
   @Column({ type: 'varchar', length: 255 })
   content: string;
 

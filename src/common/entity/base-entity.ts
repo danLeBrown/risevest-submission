@@ -1,18 +1,30 @@
-import { Column, PrimaryGeneratedColumn } from 'typeorm';
+import { getUnixTime } from 'date-fns';
+import {
+  BeforeInsert,
+  BeforeUpdate,
+  CreateDateColumn,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
-export abstract class BaseEntity<BaseDto> {
+export abstract class BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  @CreateDateColumn({ type: 'int' })
   created_at: number;
 
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  @UpdateDateColumn({ type: 'int' })
   updated_at: number;
 
-  // private dtoClass?: Constructor<DTO, [BaseEntity, O?]>;
+  @BeforeInsert()
+  insertCreatedAt() {
+    this.created_at = getUnixTime(new Date());
+    this.updated_at = getUnixTime(new Date());
+  }
 
-  // constructor() {}
-
-  // toDto(): BaseDto {
+  @BeforeUpdate()
+  updateUpdatedAt() {
+    this.updated_at = getUnixTime(new Date());
+  }
 }

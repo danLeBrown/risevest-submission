@@ -10,8 +10,11 @@ export function exceptionHandler(
   res: Response,
   next: NextFunction,
 ): Response | void {
+  if (err) {
+    console.error(err);
+  }
+
   if (err instanceof ValidateError) {
-    // console.warn(`Caught Validation Error for ${req.path}:`, err.fields);
     const fields = err?.fields;
     let message = '';
 

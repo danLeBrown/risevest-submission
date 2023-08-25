@@ -1,11 +1,13 @@
+import { BaseDto } from '../../../common/dto/base-dto';
 import { Comment } from '../entity/comment.entity';
 
-export class CommentDto {
+export class CommentDto extends BaseDto {
   id: number;
   content: string;
   post_id: number;
 
   constructor(comment: Comment) {
+    super(comment);
     this.id = comment.id;
     this.content = comment.content;
     this.post_id = comment.post_id;

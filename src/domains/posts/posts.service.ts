@@ -1,5 +1,5 @@
 import { AppDataSource } from '../../config/typeorm.config';
-import { Post } from './entity/post';
+import { Post } from './entity/post.entity';
 import { CreatePostDto } from './dto/create-post.dto';
 import { FindOptionsWhere } from 'typeorm';
 import { CreateCommentDto } from '../comments/dto/create-comment.dto';
@@ -8,7 +8,7 @@ import { NotFoundException } from '../../exceptions/not-found-exception';
 
 export class PostsService {
   constructor(
-    private readonly postRepository = AppDataSource.getRepository(Post),
+    private readonly postRepository = AppDataSource.getRepository<Post>(Post),
     private readonly commentsService = new CommentsService(),
   ) {}
 

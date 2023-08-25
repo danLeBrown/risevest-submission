@@ -27,12 +27,12 @@ export class CreatePostsTable1692921349521 implements MigrationInterface {
           {
             name: 'created_at',
             type: 'int',
-            default: 'now()',
+            width: 11,
           },
           {
             name: 'updated_at',
             type: 'int',
-            default: 'now()',
+            width: 11,
           },
           {
             name: 'user_id',

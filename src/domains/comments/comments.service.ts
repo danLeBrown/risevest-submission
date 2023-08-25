@@ -5,7 +5,9 @@ import { Comment } from './entity/comment.entity';
 
 export class CommentsService {
   constructor(
-    private readonly commentRepo = AppDataSource.getRepository(Comment),
+    private readonly commentRepo = AppDataSource.getRepository<Comment>(
+      Comment,
+    ),
   ) {}
 
   findAll() {

@@ -17,6 +17,8 @@ const models: TsoaRoute.Models = {
         "dataType": "refObject",
         "properties": {
             "id": {"dataType":"double","required":true},
+            "created_at": {"dataType":"double","required":true},
+            "updated_at": {"dataType":"double","required":true},
             "content": {"dataType":"string","required":true},
             "post_id": {"dataType":"double","required":true},
         },
@@ -37,6 +39,8 @@ const models: TsoaRoute.Models = {
         "dataType": "refObject",
         "properties": {
             "id": {"dataType":"double","required":true},
+            "created_at": {"dataType":"double","required":true},
+            "updated_at": {"dataType":"double","required":true},
             "user_id": {"dataType":"double","required":true},
             "title": {"dataType":"string","required":true},
             "content": {"dataType":"string","required":true},
@@ -49,6 +53,8 @@ const models: TsoaRoute.Models = {
         "dataType": "refObject",
         "properties": {
             "id": {"dataType":"double","required":true},
+            "created_at": {"dataType":"double","required":true},
+            "updated_at": {"dataType":"double","required":true},
             "name": {"dataType":"string","required":true},
             "posts": {"dataType":"array","array":{"dataType":"refObject","ref":"PostDto"}},
         },
@@ -287,6 +293,30 @@ export function RegisterRoutes(app: Router) {
 
 
               const promise = controller.create.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.get('/users/top-users',
+            ...(fetchMiddlewares<RequestHandler>(UsersController)),
+            ...(fetchMiddlewares<RequestHandler>(UsersController.prototype.findTopUsers)),
+
+            function UsersController_findTopUsers(request: any, response: any, next: any) {
+            const args = {
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new UsersController();
+
+
+              const promise = controller.findTopUsers.apply(controller, validatedArgs as any);
               promiseHandler(controller, promise, response, undefined, next);
             } catch (err) {
                 return next(err);

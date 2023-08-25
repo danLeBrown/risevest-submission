@@ -17,6 +17,13 @@ export class UsersController {
     return { data: UserDto.fromEntity(data) };
   }
 
+  @Get('top-users')
+  public async findTopUsers() {
+    return this.usersService.findTopUsers();
+
+    // return { data: UserDto.collection(data) };
+  }
+
   @Get('/')
   public async findAll(): Promise<{ data: UserDto[] }> {
     const data = await this.usersService.findAll();
