@@ -75,7 +75,7 @@ export class UsersService {
             .select('c.*')
             .from('comments', 'c')
             .groupBy('c.id, c.user_id')
-            .orderBy('c.created_at')
+            .orderBy('c.created_at', 'DESC')
             .limit(1),
         'user_comments',
         'u.id = user_comments.user_id',
