@@ -5,12 +5,14 @@ export class CommentDto extends BaseDto {
   id: number;
   content: string;
   post_id: number;
+  user_id: number;
 
   constructor(comment: Comment) {
     super(comment);
     this.id = comment.id;
     this.content = comment.content;
     this.post_id = comment.post_id;
+    this.user_id = comment.user_id;
   }
 
   static fromEntity(entity: Comment): CommentDto {

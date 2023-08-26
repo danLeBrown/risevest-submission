@@ -13,7 +13,10 @@ export class CommentsService {
   }
 
   async findOneByOrFail(where: FindOptionsWhere<Comment>) {
-    const comment = await this.commentRepo.findOne({ where });
+    const comment = await this.commentRepo.findOne({
+      where,
+      relations: { post: true, user: true },
+    });
 
     if (!comment) {
       throw new NotFoundException('Comment not found');
@@ -23,6 +26,9 @@ export class CommentsService {
   }
 
   async findBy(where?: FindOptionsWhere<Comment>) {
-    return this.commentRepo.find({ where, relations: { post: true } });
+    return this.commentRepo.find({
+      where,
+      relations: { post: true, user: true },
+    });
   }
 }
