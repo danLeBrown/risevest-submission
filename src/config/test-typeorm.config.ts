@@ -2,8 +2,9 @@ import { DataSource } from 'typeorm';
 
 export const TestDataSource = new DataSource({
   type: 'sqlite',
-  database: process.env.SQLITE_DB ?? __dirname + '/../../sqlite.db',
+  database: __dirname + `/../../ ${process.env.SQLITE_DB ?? 'sqlite.db'}`,
   synchronize: true,
+  logging: false,
   dropSchema: true,
   entities: [__dirname + '/../domains/**/*.entity{.js,.ts}'],
   subscribers: [],

@@ -2,8 +2,11 @@ version: '3.4'
 
 services:
   risevest:
+    container_name: risevest
     image: risevest
     # restart: always
+    volumes:
+      - ./src:/usr/src/app/src
     build:
       context: .
       dockerfile: ./Dockerfile
@@ -30,6 +33,7 @@ services:
       - risevestNetwork
 
   adminer:
+    container_name: adminer
     image: adminer
     restart: always
     depends_on:
@@ -40,6 +44,7 @@ services:
       - risevestNetwork
 
   redis:
+    container_name: redis
     image: 'redis:6'
     ports:
       - '${REDIS_PORT}:${REDIS_PORT}'

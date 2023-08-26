@@ -46,10 +46,14 @@ export class UsersService {
   async createUserPost(
     id: number,
     createPostDto: CreatePostDto,
-  ): Promise<Post[]> {
+  ): Promise<Post> {
     const user = await this.findOneByOrFail({ id });
 
-    const post = await this.postsService.create(createPostDto);
+    return this.postsService.create(createPostDto);
+  }
+
+  async findUserPosts(id: number): Promise<Post[]> {
+    const user = await this.findOneByOrFail({ id });
 
     return this.postsService.findBy({ user_id: user.id });
   }
@@ -72,10 +76,10 @@ export class UsersService {
         'user_comments',
         'u.id = user_comments.user_id',
       )
-      .andWhere('latest_comment IS NOT NULL')
       .groupBy('u.id, user_comments.content')
       .having('total_posts > 0')
-      .orderBy('total_posts', 'DESC')
+      .andHaving('latest_comment IS NOT NULL')
+      .orderBy('count(DISTINCT p.id)', 'DESC')
       .limit(3)
       .getRawMany();
 

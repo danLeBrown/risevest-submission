@@ -10,6 +10,7 @@
     "editor.defaultFormatter": "ms-azuretools.vscode-docker"
   },
   "cSpell.words": [
-    "Middlewares"
+    "Middlewares",
+    "Risevest"
   ],
 }

@@ -25,10 +25,10 @@ export class UsersController {
   public async createUserPost(
     @Path() id: number,
     @Body() createPostDto: CreatePostDto,
-  ): Promise<{ data: PostDto[] }> {
+  ): Promise<{ data: PostDto }> {
     const data = await this.usersService.createUserPost(id, createPostDto);
 
-    return { data: PostDto.collection(data) };
+    return { data: PostDto.fromEntity(data) };
   }
 
   @Get('/')
@@ -50,5 +50,12 @@ export class UsersController {
     const data = await this.usersService.findOneByOrFail({ id });
 
     return { data: UserDto.fromEntity(data) };
+  }
+
+  @Get('/{id}/posts')
+  public async findUserPosts(@Path() id: number): Promise<{ data: PostDto[] }> {
+    const data = await this.usersService.findUserPosts(id);
+
+    return { data: PostDto.collection(data) };
   }
 }

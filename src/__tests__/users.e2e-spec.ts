@@ -81,7 +81,7 @@ describe('Users Controller', () => {
             done(err);
           }
 
-          expect(res.body.data).toHaveLength(1);
+          expect(res.body.data).toBeDefined();
 
           postsService.findBy({ user_id: user.id }).then((posts) => {
             expect(posts).toHaveLength(1);
@@ -122,6 +122,25 @@ describe('Users Controller', () => {
           }
 
           expect(res.body.data.id).toBe(user.id);
+
+          done();
+        });
+    });
+  });
+
+  describe('GET /users/:id/posts', () => {
+    it("should return an array of the user's posts", (done) => {
+      request(app)
+        .get(`/users/${user.id}/posts`)
+        .set('Authorization', `Bearer ${token}`)
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .end((err, res) => {
+          if (err) {
+            done(err);
+          }
+
+          expect(res.body.data).toHaveLength(1);
 
           done();
         });

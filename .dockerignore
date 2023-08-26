@@ -25,4 +25,5 @@
 **/tsconfig.*.json
 LICENSE
 README.md
-src/__tests__/
+# src/__tests__/
+*.sqlite
