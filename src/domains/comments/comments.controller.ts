@@ -1,9 +1,11 @@
-import { Body, Get, Post, Route } from 'tsoa';
+import { Body, Get, Middlewares, Post, Route } from 'tsoa';
 import { CommentsService } from './comments.service';
 import { CommentDto } from './dto/comment.dto';
 import { CreateCommentDto } from './dto/create-comment.dto';
+import { TokenAuthentication } from '../../middlewares/token-authentication';
 
 @Route('comments')
+@Middlewares(TokenAuthentication)
 export class CommentsController {
   constructor(private readonly commentsService = new CommentsService()) {}
 

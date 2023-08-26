@@ -1,12 +1,14 @@
-import { Body, Get, Path, Post, Route } from 'tsoa';
+import { Body, Get, Middlewares, Path, Post, Route } from 'tsoa';
 import { UsersService } from './users.service';
 import { UserDto } from './dto/user.dto';
 import { CreateUserDto } from './dto/create-user.dto';
 import { PostDto } from '../posts/dto/post.dto';
 import { CreatePostDto } from '../posts/dto/create-post.dto';
 import { AuthUserDto } from './dto/auth-user.dto';
+import { TokenAuthentication } from '../../middlewares/token-authentication';
 
 @Route('users')
+@Middlewares(TokenAuthentication)
 export class UsersController {
   constructor(private readonly usersService = new UsersService()) {}
 

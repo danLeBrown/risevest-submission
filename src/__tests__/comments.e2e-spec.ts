@@ -12,6 +12,7 @@ describe('Comments Controller', () => {
   let user: User;
   let commentsService: CommentsService;
   let comment: Comment;
+  let token: string;
 
   beforeAll(async () => {
     app = await createApplication();
@@ -22,6 +23,7 @@ describe('Comments Controller', () => {
     user = await usersService.create({
       name: 'John Doe',
     });
+    token = user.token ?? '';
 
     const post = await postsService.create({
       user_id: user.id,
@@ -37,9 +39,17 @@ describe('Comments Controller', () => {
   });
 
   describe('GET /comments', () => {
+    it('should throw a 401 error if no token is provided', (done) => {
+      request(app)
+        .post('/comments')
+        .expect('Content-Type', /json/)
+        .expect(401, done);
+    });
+
     it('should return an array of comments', (done) => {
       request(app)
         .get('/comments')
+        .set('Authorization', `Bearer ${token}`)
         .expect('Content-Type', /json/)
         .expect(200)
         .end((err, res) => {
@@ -56,6 +66,7 @@ describe('Comments Controller', () => {
     it('should return a single comment', (done) => {
       request(app)
         .get(`/comments/${comment.id}`)
+        .set('Authorization', `Bearer ${token}`)
         .expect('Content-Type', /json/)
         .expect(200)
         .end((err, res) => {
@@ -74,6 +85,7 @@ describe('Comments Controller', () => {
     it('should create a comment', (done) => {
       request(app)
         .post('/comments')
+        .set('Authorization', `Bearer ${token}`)
         .send({
           user_id: user.id,
           post_id: comment.post_id,

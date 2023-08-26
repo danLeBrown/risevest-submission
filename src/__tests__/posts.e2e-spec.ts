@@ -14,6 +14,7 @@ describe('Posts Controller', () => {
   let usersService: UsersService;
   let commentsService: CommentsService;
   let post: Post;
+  let token: string;
 
   beforeAll(async () => {
     app = await createApplication();
@@ -24,6 +25,7 @@ describe('Posts Controller', () => {
     user = await usersService.create({
       name: 'John Doe',
     });
+    token = user.token ?? '';
 
     post = await postsService.create({
       user_id: user.id,
@@ -33,9 +35,17 @@ describe('Posts Controller', () => {
   });
 
   describe('GET /posts', () => {
+    it('should throw a 401 error if no token is provided', (done) => {
+      request(app)
+        .get('/posts')
+        .expect('Content-Type', /json/)
+        .expect(401, done);
+    });
+
     it('should return an array of posts', (done) => {
       request(app)
         .get('/posts?user_id=1')
+        .set('Authorization', `Bearer ${token}`)
         .expect('Content-Type', /json/)
         .expect(200)
         .end((err, res) => {
@@ -52,6 +62,7 @@ describe('Posts Controller', () => {
     it('should return a single post', (done) => {
       request(app)
         .get(`/posts/${post.id}`)
+        .set('Authorization', `Bearer ${token}`)
         .expect('Content-Type', /json/)
         .expect(200)
         .end((err, res) => {
@@ -70,6 +81,7 @@ describe('Posts Controller', () => {
     it('should create a post', (done) => {
       request(app)
         .post('/posts')
+        .set('Authorization', `Bearer ${token}`)
         .send({
           user_id: user.id,
           title: 'New post',
@@ -104,6 +116,7 @@ describe('Posts Controller', () => {
     it('should add a comment to a post', (done) => {
       request(app)
         .post(`/posts/${post.id}/comments`)
+        .set('Authorization', `Bearer ${newUser.token}`)
         .send({
           user_id: newUser.id,
           post_id: post.id,

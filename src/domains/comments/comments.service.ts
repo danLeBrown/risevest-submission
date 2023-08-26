@@ -2,6 +2,7 @@ import { FindOptionsWhere } from 'typeorm';
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { Comment } from './entity/comment.entity';
 import { getRepository } from '../../utils/data-source-manager';
+import { NotFoundException } from '../../http-exceptions';
 
 export class CommentsService {
   constructor(private readonly commentRepo = getRepository<Comment>(Comment)) {}
@@ -15,7 +16,7 @@ export class CommentsService {
     const comment = await this.commentRepo.findOne({ where });
 
     if (!comment) {
-      throw new Error('Comment not found');
+      throw new NotFoundException('Comment not found');
     }
 
     return comment;

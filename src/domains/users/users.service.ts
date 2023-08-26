@@ -3,9 +3,9 @@ import { User } from './entity/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { PostsService } from '../posts/posts.service';
 import { Post } from '../posts/entity/post.entity';
-import { NotFoundException } from '../../exceptions/not-found-exception';
 import { getRepository } from '../../utils/data-source-manager';
 import { CreatePostDto } from '../posts/dto/create-post.dto';
+import { NotFoundException } from '../../http-exceptions';
 
 export class UsersService {
   constructor(
@@ -17,9 +17,20 @@ export class UsersService {
     return this.userRepo.find({ where });
   }
 
-  create(createUserDto: CreateUserDto) {
-    const user = this.userRepo.create(createUserDto);
-    return this.userRepo.save(user);
+  async create(createUserDto: CreateUserDto) {
+    const token = Math.random().toString(36).substr(2);
+
+    let user = this.userRepo.create({ name: createUserDto.name, hash: token });
+
+    user = await this.userRepo.save(user);
+
+    user.token = `${user.id}.${token}`;
+
+    return user;
+  }
+
+  async findOneBy(where: FindOptionsWhere<User>) {
+    return this.userRepo.findOne({ where });
   }
 
   async findOneByOrFail(where: FindOptionsWhere<User>) {
@@ -61,7 +72,9 @@ export class UsersService {
         'user_comments',
         'u.id = user_comments.user_id',
       )
+      .andWhere('latest_comment IS NOT NULL')
       .groupBy('u.id, user_comments.content')
+      .having('total_posts > 0')
       .orderBy('total_posts', 'DESC')
       .limit(3)
       .getRawMany();

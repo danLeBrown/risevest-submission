@@ -7,7 +7,7 @@ export class AuthUserDto {
 
   constructor(user: User) {
     this.user = UserDto.fromEntity(user);
-    this.token = user.token;
+    this.token = user.token ?? '';
   }
 
   static fromEntity(entity: User): AuthUserDto {

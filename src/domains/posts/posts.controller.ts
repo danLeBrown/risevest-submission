@@ -1,12 +1,14 @@
-import { Body, Get, Path, Post, Queries, Route } from 'tsoa';
+import { Body, Get, Middlewares, Path, Post, Queries, Route } from 'tsoa';
 import { PostsService } from './posts.service';
 import { PostDto } from './dto/post.dto';
 import { CreatePostDto } from './dto/create-post.dto';
 import { CreateCommentDto } from '../comments/dto/create-comment.dto';
 import { CommentDto } from '../comments/dto/comment.dto';
 import { QueryPostDto } from './dto/query-post.dto';
+import { TokenAuthentication } from '../../middlewares/token-authentication';
 
 @Route('posts')
+@Middlewares(TokenAuthentication)
 export class PostsController {
   constructor(private readonly postsService = new PostsService()) {}
 

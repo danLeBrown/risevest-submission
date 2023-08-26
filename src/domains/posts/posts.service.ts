@@ -3,8 +3,8 @@ import { CreatePostDto } from './dto/create-post.dto';
 import { FindOptionsWhere } from 'typeorm';
 import { CreateCommentDto } from '../comments/dto/create-comment.dto';
 import { CommentsService } from '../comments/comments.service';
-import { NotFoundException } from '../../exceptions/not-found-exception';
 import { getRepository } from '../../utils/data-source-manager';
+import { NotFoundException } from '../../http-exceptions';
 
 export class PostsService {
   constructor(

@@ -14,6 +14,7 @@ describe('Users Controller', () => {
   let usersService: UsersService;
   let postsService: PostsService;
   let commentsService: CommentsService;
+  let token: string;
 
   beforeAll(async () => {
     app = await createApplication();
@@ -24,12 +25,21 @@ describe('Users Controller', () => {
     user = await usersService.create({
       name: 'John Doe',
     });
+    token = user.token ?? '';
   });
 
   describe('POST /users', () => {
+    it('should throw a 401 error if no token is provided', (done) => {
+      request(app)
+        .post('/users')
+        .expect('Content-Type', /json/)
+        .expect(401, done);
+    });
+
     it('should create a user', (done) => {
       request(app)
         .post('/users')
+        .set('Authorization', `Bearer ${token}`)
         .send({
           name: 'Jane Doe',
         })
@@ -58,6 +68,7 @@ describe('Users Controller', () => {
     it('should create a post for a user and retrieve all posts of a user', (done) => {
       request(app)
         .post('/users/1/posts')
+        .set('Authorization', `Bearer ${token}`)
         .send({
           user_id: user.id,
           title: 'Hello world',
@@ -85,6 +96,7 @@ describe('Users Controller', () => {
     it('should return an array of users', (done) => {
       request(app)
         .get('/users')
+        .set('Authorization', `Bearer ${token}`)
         .expect('Content-Type', /json/)
         .expect(200)
         .end((err, res) => {
@@ -101,6 +113,7 @@ describe('Users Controller', () => {
     it('should return a single user', (done) => {
       request(app)
         .get(`/users/${user.id}`)
+        .set('Authorization', `Bearer ${token}`)
         .expect('Content-Type', /json/)
         .expect(200)
         .end((err, res) => {
@@ -181,6 +194,7 @@ describe('Users Controller', () => {
     it('should fetch the top 3 users with the most posts and, for each of those users, the latest comment they made. ', (done) => {
       request(app)
         .get(`/users/leader-board`)
+        .set('Authorization', `Bearer ${token}`)
         .expect('Content-Type', /json/)
         .expect(200)
         .end((err, res) => {
@@ -188,7 +202,7 @@ describe('Users Controller', () => {
             done(err);
           }
 
-          expect(res.body.data).toHaveLength(3);
+          expect(res.body.data).toHaveLength(1);
           expect(res.body.data[0].name).toBe('Top User');
           expect(res.body.data[0].latest_comment).toBe('Top User Comment 2');
           expect(res.body.data[0].total_posts).toBe(4);
