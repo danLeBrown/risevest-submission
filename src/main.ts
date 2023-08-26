@@ -4,7 +4,7 @@ import createApplication from './utils/app';
 async function bootstrap() {
   dotenv.config();
 
-  const port = process.env.APP_PORT ?? 4300;
+  const port = process.env.PORT ?? 3000;
   const app = await createApplication();
 
   app.listen(port, () => {

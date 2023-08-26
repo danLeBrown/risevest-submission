@@ -15,7 +15,7 @@ services:
     depends_on:
       - postgres
     ports:
-      - ${APP_PORT}:${APP_PORT}
+      - ${PORT}:${PORT}
     networks:
       - risevestNetwork
 

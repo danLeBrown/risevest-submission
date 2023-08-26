@@ -7,7 +7,7 @@ RUN apk add --no-cache sqlite
 # RUN npm ci && mv node_modules ../
 RUN npm install && mv node_modules ../
 COPY . .
-EXPOSE ${APP_PORT}
+EXPOSE ${PORT}
 RUN chown -R node /usr/src/app
 USER node
 RUN npm run build
