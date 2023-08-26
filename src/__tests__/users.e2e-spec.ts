@@ -145,7 +145,26 @@ describe('Users Controller', () => {
     });
   });
 
-  describe('GET /users/top', () => {
+  describe('GET /users/leader-board', () => {
+    it("should return an empty array since there's no top user yet. ", (done) => {
+      request(app)
+        .get(`/users/leader-board`)
+        .set('Authorization', `Bearer ${token}`)
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .end((err, res) => {
+          if (err) {
+            done(err);
+          }
+
+          expect(res.body.data).toHaveLength(0);
+
+          done();
+        });
+    });
+  });
+
+  describe('GET /users/leader-board', () => {
     beforeAll(async () => {
       const topUser = await usersService.create({
         name: 'Top User',
@@ -208,6 +227,7 @@ describe('Users Controller', () => {
         ),
       );
     });
+
     it('should fetch the top 3 users with the most posts and, for each of those users, the latest comment they made. ', (done) => {
       request(app)
         .get(`/users/leader-board`)
