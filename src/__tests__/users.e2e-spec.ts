@@ -243,7 +243,7 @@ describe('Users Controller', () => {
           expect(res.body.data[0].name).toBe('Top User');
           expect(res.body.data[0].latest_comment).toBe('Top User Comment 2');
           expect(res.body.data[0].total_posts).toBe(4);
-
+          expect(res.body.data[0].hash).not.toBeDefined();
           done();
         });
     });

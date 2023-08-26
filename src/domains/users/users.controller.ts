@@ -6,6 +6,7 @@ import { PostDto } from '../posts/dto/post.dto';
 import { CreatePostDto } from '../posts/dto/create-post.dto';
 import { AuthUserDto } from './dto/auth-user.dto';
 import { TokenAuthentication } from '../../middlewares/token-authentication';
+import { TopUserDto } from './dto/top-user.dto';
 
 @Route('users')
 export class UsersController {
@@ -41,10 +42,10 @@ export class UsersController {
 
   @Get('leader-board')
   @Middlewares(TokenAuthentication)
-  public async findTopUsers() {
+  public async findTopUsers(): Promise<{ data: TopUserDto[] }> {
     const data = await this.usersService.findTopUsers();
 
-    return { data };
+    return { data: TopUserDto.collection(data) };
   }
 
   @Get('/{id}')

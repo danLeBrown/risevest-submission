@@ -58,7 +58,9 @@ export class UsersService {
     return this.postsService.findBy({ user_id: user.id });
   }
 
-  async findTopUsers(): Promise<User[]> {
+  async findTopUsers(): Promise<
+    Array<User & { total_posts: number; latest_comment: string }>
+  > {
     return this.userRepo
       .createQueryBuilder('u')
       .select('u.*')
