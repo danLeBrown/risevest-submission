@@ -42,6 +42,7 @@ Endpoints to:
 
 ```bash
 Run:
+cp .env.example .env # to create a .env file from the .env.example file
 docker-compose up -d # to start the application and its dependencies
 ```
 
