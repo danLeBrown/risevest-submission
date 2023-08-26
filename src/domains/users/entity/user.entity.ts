@@ -22,8 +22,8 @@ export class User extends BaseEntity {
   comments?: Comment[];
 
   @BeforeInsert()
-  async generateHash() {
-    this.hash = await hash(this.hash ?? '');
+  generateHash() {
+    this.hash = hash(this.hash ?? '');
   }
 
   token?: string;

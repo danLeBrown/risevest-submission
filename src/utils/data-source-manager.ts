@@ -1,7 +1,8 @@
 import { EntityTarget, ObjectLiteral, Repository } from 'typeorm';
 
 import { config } from 'dotenv';
-import { AppDataSource, TestDataSource } from '../config/typeorm.config';
+import { AppDataSource } from '../config/typeorm.config';
+import { TestDataSource } from '../config/test-typeorm.config';
 
 config();
 

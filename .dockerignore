@@ -1,6 +1,6 @@
 **/.classpath
 **/.dockerignore
-**/.env
+**/.env.*
 **/.git
 **/.gitignore
 **/.project
@@ -25,3 +25,4 @@
 **/tsconfig.*.json
 LICENSE
 README.md
+src/__tests__/
