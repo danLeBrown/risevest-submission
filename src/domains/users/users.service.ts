@@ -77,8 +77,8 @@ export class UsersService {
         'u.id = user_comments.user_id',
       )
       .groupBy('u.id, user_comments.content')
-      .having('total_posts > 0')
-      .andHaving('latest_comment IS NOT NULL')
+      .having('count(DISTINCT p.id) > 0')
+      .andHaving('user_comments.content IS NOT NULL')
       .orderBy('count(DISTINCT p.id)', 'DESC')
       .limit(3)
       .getRawMany();
