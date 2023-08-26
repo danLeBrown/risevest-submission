@@ -29,17 +29,9 @@ describe('Users Controller', () => {
   });
 
   describe('POST /users', () => {
-    it('should throw a 401 error if no token is provided', (done) => {
-      request(app)
-        .post('/users')
-        .expect('Content-Type', /json/)
-        .expect(401, done);
-    });
-
     it('should create a user', (done) => {
       request(app)
         .post('/users')
-        .set('Authorization', `Bearer ${token}`)
         .send({
           name: 'Jane Doe',
         })
@@ -65,6 +57,12 @@ describe('Users Controller', () => {
   });
 
   describe('POST /users/:id/post', () => {
+    it('should throw a 401 error if no token is provided', (done) => {
+      request(app)
+        .post('/users/1/posts')
+        .expect('Content-Type', /json/)
+        .expect(401, done);
+    });
     it('should create a post for a user and retrieve all posts of a user', (done) => {
       request(app)
         .post('/users/1/posts')

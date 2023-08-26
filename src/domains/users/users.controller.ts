@@ -8,7 +8,6 @@ import { AuthUserDto } from './dto/auth-user.dto';
 import { TokenAuthentication } from '../../middlewares/token-authentication';
 
 @Route('users')
-@Middlewares(TokenAuthentication)
 export class UsersController {
   constructor(private readonly usersService = new UsersService()) {}
 
@@ -22,6 +21,7 @@ export class UsersController {
   }
 
   @Post('/{id}/posts')
+  @Middlewares(TokenAuthentication)
   public async createUserPost(
     @Path() id: number,
     @Body() createPostDto: CreatePostDto,
@@ -32,6 +32,7 @@ export class UsersController {
   }
 
   @Get('/')
+  @Middlewares(TokenAuthentication)
   public async findBy(): Promise<{ data: UserDto[] }> {
     const data = await this.usersService.findBy();
 
@@ -39,6 +40,7 @@ export class UsersController {
   }
 
   @Get('leader-board')
+  @Middlewares(TokenAuthentication)
   public async findTopUsers() {
     const data = await this.usersService.findTopUsers();
 
@@ -46,6 +48,7 @@ export class UsersController {
   }
 
   @Get('/{id}')
+  @Middlewares(TokenAuthentication)
   public async findById(id: number): Promise<{ data: UserDto }> {
     const data = await this.usersService.findOneByOrFail({ id });
 
@@ -53,6 +56,7 @@ export class UsersController {
   }
 
   @Get('/{id}/posts')
+  @Middlewares(TokenAuthentication)
   public async findUserPosts(@Path() id: number): Promise<{ data: PostDto[] }> {
     const data = await this.usersService.findUserPosts(id);
 
