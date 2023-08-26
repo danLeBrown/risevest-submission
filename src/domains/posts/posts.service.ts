@@ -37,6 +37,8 @@ export class PostsService {
   async createComment(id: number, createCommentDto: CreateCommentDto) {
     const post = await this.findOneByOrFail({ id });
 
+    createCommentDto = { ...createCommentDto, post_id: post.id };
+
     return this.commentsService.create(createCommentDto);
   }
 }

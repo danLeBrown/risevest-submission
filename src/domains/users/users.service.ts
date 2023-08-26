@@ -49,6 +49,8 @@ export class UsersService {
   ): Promise<Post> {
     const user = await this.findOneByOrFail({ id });
 
+    createPostDto = { ...createPostDto, user_id: user.id };
+
     return this.postsService.create(createPostDto);
   }
 
