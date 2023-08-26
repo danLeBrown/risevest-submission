@@ -18,5 +18,9 @@ export const AppDataSource = new DataSource({
   subscribers: [],
   migrations: [__dirname + '/../database/migrations/*{.ts,.js}'],
   migrationsTableName: 'migrations',
-  ssl: process.env.NODE_ENV === 'production' ? true : undefined,
+  extra: {
+    ssl: {
+      rejectUnauthorized: false,
+    },
+  },
 });
