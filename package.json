@@ -5,7 +5,7 @@
   "main": "src/main.ts",
   "scripts": {
     "build": "tsc",
-    "start": "node dist/main.js",
+    "start": "node dist/main",
     "dev": "concurrently \"npx tsc --watch\" \"tsoa spec-and-routes\"",
     "route:generate": "tsoa spec-and-routes",
     "migration:create": "typeorm-ts-node-esm migration:create ./src/database/migrations/${npm_config_name}",
